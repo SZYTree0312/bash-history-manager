@@ -52,7 +52,7 @@
 #define BHM_MKDIR(p) mkdir((p), 0755)
 #endif
 
-static const char* VERSION = "1.1.0";
+static const char* VERSION = "1.2.0";
 
 // ---------------- 基础小工具（与 CLI 版共用） ----------------
 

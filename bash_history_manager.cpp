@@ -41,7 +41,7 @@ static bool stdinIsTty() {
 static bool stdinIsTty() { return isatty(0) != 0; }
 #endif
 
-static const char* VERSION = "1.1.0";
+static const char* VERSION = "1.2.0";
 static const size_t TRUNC_LEN = 100;
 
 // ---------------- 基础小工具 ----------------

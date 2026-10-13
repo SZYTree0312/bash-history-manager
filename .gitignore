@@ -7,3 +7,6 @@ bhm-gui.exe
 *.csv
 tmp.bhmtest.*
 tmp_commit*.sh
+tmp_gui_smoke.py
+__pycache__/
+*.pyc
