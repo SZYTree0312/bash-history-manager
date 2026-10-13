@@ -1,6 +1,6 @@
-# Bash 历史管理器 v1.2
+# Bash 历史管理器 v1.3
 
-用来**查看和管理 bash/zsh 的命令历史**。面向 Linux / WSL，GCC 一条命令就能编出来。
+用来**查看和管理 bash/zsh 的命令历史**。面向 Linux / WSL。
 
 bash 的历史按 `↑` 翻的就是 `~/.bash_history`。`history -c` 只清当前会话的内存，**清不掉文件里已经落地的记录** —— 想真正删掉某条带密码、带 token 的命令，得直接改这个文件。
 
@@ -9,10 +9,9 @@ bash 的历史按 `↑` 翻的就是 `~/.bash_history`。`history -c` 只清当�
 | 组件 | 语言 | 怎么跑 |
 |---|---|---|
 | `bhm`（终端版） | C++17，零依赖 | `make`（就是一条 `g++`），或 `g++ -std=c++17 -O2 -o bhm bash_history_manager.cpp` |
-| `bhm_gui.py`（图形版） | Python 3 + tkinter | `python3 bhm_gui.py`，**免编译** |
-| `bhm-gui`（图形版，可选） | C++17 + FLTK | `make gui-fltk`，需要 FLTK 开发库；不装就用上面的 Python 版 |
+| `bhm-gui`（图形版） | Python 3 + tkinter | `python3 bhm_gui.py`，**免编译**，不用装任何 GUI 开发库 |
 
-三套功能一致、逻辑同源。图形版推荐走 Python：不用装任何 GUI 开发库。
+两者功能一致、逻辑同源。图形版走 Python 就是为了绕开编译链：不用装 FLTK 之类的 GUI 库，有 Python 就能跑。
 
 ## 功能
 
@@ -64,7 +63,7 @@ bhm info                        # 看历史文件状态
 
 `--file` 可以指到任意历史文件，测试或管别的机器的历史都用它。
 
-## 图形版（Python，免编译，推荐）
+## 图形版 bhm-gui（Python，免编译）
 
 ```
 python3 bhm_gui.py                      # 自动找历史文件
@@ -72,7 +71,9 @@ python3 bhm_gui.py --file ~/.zsh_history
 python3 bhm_gui.py --version
 ```
 
-或者 `make gui`。如果报 `ModuleNotFoundError: tkinter`，装系统包就行（**不是 pip 包**）：
+`make gui` 一个意思。`sudo make install` 之后有 `bhm-gui` 命令，直接敲就行。
+
+如果报 `ModuleNotFoundError: tkinter`，装系统包就行（**不是 pip 包**）：
 
 ```
 sudo apt install python3-tk      # Debian / Ubuntu / WSL
@@ -80,16 +81,6 @@ sudo dnf install python3-tkinter # Fedora
 ```
 
 界面：列表展示全部历史（序号 / 时间 / 命令），搜索框实时过滤（忽略大小写 / 正则），「删除选中」支持 Ctrl/Shift 多选，「删除所有匹配」按当前搜索词批量删，「清空全部」要输入 yes 确认，另有「导出 CSV」「备份」「恢复…」「详细信息」。删除 / 清空 / 恢复前同样自动备份到 `~/.bhm/backups/`。
-
-## 图形版（C++ / FLTK，可选）
-
-同一套逻辑的 FLTK 实现。**需要 FLTK 开发库**，不想装就用上面的 Python 版：
-
-```
-sudo apt install libfltk-dev    # Debian / Ubuntu / WSL
-make gui-fltk
-./bhm-gui                       # 可加 --file 指定历史文件
-```
 
 ## 注意
 
@@ -112,4 +103,4 @@ make test
 
 ## 许可
 
-MIT。终端版与两个图形版均为 MIT；Python 图形版只用标准库 + tkinter，C++ 图形版链接的 FLTK 亦为 MIT 许可。
+MIT。图形版只用 Python 标准库 + tkinter，没有任何第三方依赖。
