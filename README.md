@@ -1,10 +1,10 @@
-# Bash 历史管理器 v1.0
+# Bash 历史管理器 v1.1
 
 一个单文件的 C++ 小工具，用来**查看和管理 bash/zsh 的命令历史**。WSL 里直接用，纯终端，零依赖。
 
 bash 的历史按 `↑` 翻的就是 `~/.bash_history`。`history -c` 只清当前会话的内存，**清不掉文件里已经落地的记录** —— 想真正删掉某条带密码、带 token 的命令，得直接改这个文件。
 
-这个工具就是干这个的。形态照我自己那个 [PowerShell 历史管理器](https://github.com/SZYTree0312/powershell-history-manager)（GUI 版）来，这是终端版。
+这个工具就是干这个的。形态照我自己那个 [PowerShell 历史管理器](https://github.com/SZYTree0312/powershell-history-manager)（GUI 版）来：**终端版 `bhm` + 图形版 `bhm-gui`**，功能完全一致，动文件前都会自动备份。
 
 ## 功能
 
@@ -24,7 +24,7 @@ bash 的历史按 `↑` 翻的就是 `~/.bash_history`。`history -c` 只清当�
 
 bash 的扩展时间戳格式（`#1728000000` 行）和 zsh 的扩展格式（`: 1728000000:0;命令`）都认，写回时保持原格式。纯文本历史（每行一条）也认。
 
-## 安装与运行
+## 安装与运行（终端版 bhm）
 
 **方式一：make（WSL / Linux）**
 
@@ -45,7 +45,7 @@ g++ -std=c++17 -O2 -o bhm bash_history_manager.cpp
 cl /std:c++17 /EHsc /Fe:bhm bash_history_manager.cpp
 ```
 
-## 用法
+## 用法（终端版）
 
 ```
 bhm list -n 50                  # 看最近 50 条
@@ -60,6 +60,31 @@ bhm info                        # 看历史文件状态
 ```
 
 `--file` 可以指到任意历史文件，测试或管别的机器的历史都用它。
+
+## 图形版 bhm-gui
+
+`bhm-gui` 是同一套逻辑的 FLTK 图形界面，功能与终端版一一对应：
+
+- 列表展示全部历史（序号 / 时间 / 命令），搜索框实时过滤（支持忽略大小写、正则）
+- 「删除选中」按 Ctrl/Shift 多选删除；「删除所有匹配」按当前搜索词批量删
+- 「清空全部」需要输入 yes 确认；删除 / 清空 / 恢复前自动备份
+- 「导出 CSV」「立即备份」「恢复备份…」「详细信息」「关于」
+
+**Linux（WSL）编译**（需要 FLTK 1.4 开发包）：
+
+```
+sudo apt install libfltk-dev    # Debian/Ubuntu；WSL 里同样适用
+make bhm-gui
+./bhm-gui                       # 可加 --file 指定历史文件
+```
+
+**Windows 编译**：装 MSVC Build Tools + FLTK 1.4（用 CMake 生成 VS/NMake 工程，见 [fltk.org](https://www.fltk.org/)），然后：
+
+```
+cl /std:c++17 /EHsc /MT /Fe:bhm-gui bhm_gui.cpp /link fltk.lib fltk_images.lib fltk_jpeg.lib fltk_png.lib fltk_z.lib gdi32.lib user32.lib advapi32.lib shell32.lib comdlg32.lib ole32.lib uuid.lib gdiplus.lib comctl32.lib ws2_32.lib uxtheme.lib winspool.lib
+```
+
+`/MT` 静态链 CRT，出来的 exe 不依赖 VC++ 运行库。Windows 预编译版在 [Releases](https://github.com/SZYTree0312/bash-history-manager/releases) 直接下。
 
 ## 注意
 
@@ -79,4 +104,4 @@ bash tests/run.sh
 
 ## 许可
 
-MIT
+MIT（终端版 + GUI 版均为 MIT；GUI 版静态链接的 FLTK 1.4.2 图形库亦为 MIT 许可）

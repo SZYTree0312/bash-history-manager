@@ -41,7 +41,7 @@ static bool stdinIsTty() {
 static bool stdinIsTty() { return isatty(0) != 0; }
 #endif
 
-static const char* VERSION = "1.0.0";
+static const char* VERSION = "1.1.0";
 static const size_t TRUNC_LEN = 100;
 
 // ---------------- 基础小工具 ----------------
@@ -587,6 +587,11 @@ static std::string resolveHistPath(const std::string& fileOpt) {
 }
 
 int main(int argc, char** argv) {
+#ifdef _WIN32
+    // Windows 控制台默认 GBK 代码页，UTF-8 输出会乱码；切一下（仅影响本进程）
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
     std::vector<std::string> args(argv + 1, argv + argc);
     if (args.empty()) {
         usage();

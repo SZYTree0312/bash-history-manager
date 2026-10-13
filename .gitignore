@@ -1,6 +1,9 @@
 bhm
 bhm.exe
+bhm-gui
+bhm-gui.exe
 *.o
 *.obj
 *.csv
 tmp.bhmtest.*
+tmp_commit*.sh
