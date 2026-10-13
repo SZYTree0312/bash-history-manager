@@ -1,0 +1,6 @@
+bhm
+bhm.exe
+*.o
+*.obj
+*.csv
+tmp.bhmtest.*
